@@ -1,0 +1,201 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+type Query {
+    users: [User!] @all
+    user(id: Int! @eq): User @find
+
+    countries: [Country!] @all
+    country(id: Int! @eq): Country @find
+
+    provinces(country_id: Int! @eq): [Province!] @all
+    province(id: Int! @eq): Province @find
+
+    regencies(province_id: Int! @eq): [Regency!] @all
+    regency(id: Int! @eq): Regency @find
+
+    districts(regency_id: Int! @eq): [District!] @all
+    district(id: Int! @eq): District @find
+
+    villages(district_id: Int! @eq): [Village!] @all
+    village(id: Int! @eq): Village @find
+
+    banks: [Bank!] @all
+    bank(id: Int! @eq): Bank @find
+
+    musicGenres: [MusicGenre!]! @all
+    musicGenre(id: Int! @eq): MusicGenre @find
+
+    musicInstruments: [MusicInstrument!]! @all
+    musicInstrument(id: Int! @eq): MusicInstrument @find
+
+    musicSkills: [MusicSkill!]! @all
+    musicSkill(id: Int! @eq): MusicSkill @find
+}
+
+type Mutation {
+    createUser(inputCreateUser: inputCreateUser! @spread): User! @field(resolver: "UserMutator@create")
+}
+
+input inputCreateUser {
+    id: String
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    username: String
+    email: String!
+    password: String! @bcrypt
+    phoneNumber: String @rename(attribute: "phone_number")
+    birthDate: Date @rename(attribute: "birth_date")
+    address: String
+    kecamatan: String
+    kabupatenKota: String @rename(attribute: "kabupaten_kota")
+    provinsi: String
+    negara: String
+    fee: String
+    bank: String
+    bankAccountNumber: String @rename(attribute: "bank_account_number")
+    idType: String @rename(attribute: "id_type")
+    idNumber: String @rename(attribute: "id_number")
+    musicGenres: CreateMusicGenreBelongsToMany
+    musicInstruments: CreateMusicInstrumentBelongsToMany
+    musicSkills: CreateMusicSkillBelongsToMany
+    links: CreateLinkRelation
+}
+
+input CreateLinkRelation {
+    create: [CreateLinkInput!]
+}
+
+input CreateMusicGenreBelongsToMany {
+    create: [CreateMusicGenreInput!]
+    connect: [ID!]
+    sync: [ID!]
+}
+
+input CreateMusicInstrumentBelongsToMany {
+    create: [CreateMusicInstrumentInput!]
+    connect: [ID!]
+    sync: [ID!]
+}
+
+input CreateMusicSkillBelongsToMany {
+    create: [CreateMusicSkillInput!]
+    sync: ID!
+}
+
+input CreateLinkInput {
+    name: String!
+    link: String!
+}
+
+input CreateMusicGenreInput {
+    name: String!
+}
+
+input CreateMusicInstrumentInput {
+    name: String!
+}
+
+input CreateMusicSkillInput {
+    name: String!
+}
+
+type User {
+    id: ID!
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    username: String!
+    email: String!
+    password: String!
+    phoneNumber: String! @rename(attribute: "phone_number")
+    birthDate: Date! @rename(attribute: "birth_date")
+    address: String
+    kecamatan: String
+    kabupatenKota: String @rename(attribute: "kabupaten_kota")
+    provinsi: String
+    negara: String
+    fee: String
+    bank: String
+    bankAccountNumber: String @rename(attribute: "bank_account_number")
+    idType: String @rename(attribute: "id_type")
+    idNumber: String @rename(attribute: "id_number")
+    musicGenres: [MusicGenre!]! @belongsToMany(relation: "musicGenres")
+    musicInstruments: [MusicInstrument!]! @belongsToMany(relation: "musicInstruments")
+    musicSkills: [MusicSkill!]! @belongsToMany(relation: "musicSkills")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Country {
+    id: ID!
+    name: String!
+    niceName: String! @rename(attribute: "nice_name")
+    iso3: String!
+    numcode: Int!
+    phoneCode: Int! @rename(attribute: "phone_code")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Province {
+    id: ID!
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Regency {
+    id: ID!
+    provinceId: ID! @rename(attribute: "province_id")
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type District {
+    id: ID!
+    regencyId: ID! @rename(attribute: "regency_id")
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Village {
+    id: ID!
+    districtId: ID! @rename(attribute: "district_id")
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Bank {
+    id: ID!
+    name: String!
+    code: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type MusicGenre {
+    id: ID!
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type MusicInstrument {
+    id: ID!
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type MusicSkill {
+    id: ID!
+    name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
