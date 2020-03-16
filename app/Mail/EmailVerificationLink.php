@@ -18,6 +18,11 @@ class EmailVerificationLink extends Mailable
     public $user;
 
     /**
+     * Redirect link stored here
+     */
+    public $link;
+
+    /**
      * Create a new message instance.
      *
      * @return void
@@ -25,6 +30,7 @@ class EmailVerificationLink extends Mailable
     public function __construct(User $user)
     {
         $this->user = $user;
+        $this->link = config('web_mail_verification_url');
     }
 
     /**
@@ -35,6 +41,7 @@ class EmailVerificationLink extends Mailable
     public function build()
     {
         return $this->from('contact@sesplay.con')
-            ->view('view.name');
+            ->subject('Mail Verification')
+            ->view('mailer');
     }
 }
