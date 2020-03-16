@@ -28,17 +28,14 @@ class UserMutator
     {
         // Check if User exists
         if (!empty($args['id'])) {
-            $user = User::find($args['id']);
-        }
+            $user = User::findOrFail($args['id']);
 
-        // Update if selected user are valid requester
-        if (!empty($user)) {
             unset($args['id']);
             unset($args['email']);
             unset($args['password']);
-            
-            $user->update($args);
 
+            $user->update($args);
+    
             return $user;
         }
 
