@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'web_mail_verification_url' => env('WEB_MAIL_VERIFICATION_URL', 'http://localhost'),
+
     'asset_url' => env('ASSET_URL', null),
 
     /*
