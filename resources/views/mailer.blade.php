@@ -358,7 +358,7 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="http://indieshuffle.com/" target="_blank">{{ $link }}Click this button</a> </td>
+                                      <td> <a href="{{ $link }}" target="_blank">Click this button</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
