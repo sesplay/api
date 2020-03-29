@@ -29,10 +29,12 @@ class ChangeUsersTable extends Migration
      */
     public function down()
     {
-        $table->string('first_name')->change();
-        $table->string('last_name')->change();
-        $table->string('username')->unique()->change();
-        $table->string('phone_number')->change();
-        $table->date('birth_date')->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('first_name')->change();
+            $table->string('last_name')->change();
+            $table->string('username')->unique()->change();
+            $table->string('phone_number')->change();
+            $table->date('birth_date')->change();
+        });
     }
 }
