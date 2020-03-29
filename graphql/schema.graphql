@@ -38,7 +38,7 @@ type Query {
 
 type Mutation {
     createUser(inputCreateUser: inputUser! @spread): User! @field(resolver: "UserMutator@create")
-    verifyUser(token: String!): User! @field(resolver: "UserMutator@verify)
+    verifyUser(token: String!): User! @field(resolver: "UserMutator@verify")
 }
 
 input inputUser {
