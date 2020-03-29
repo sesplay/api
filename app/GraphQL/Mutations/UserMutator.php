@@ -4,8 +4,9 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\User;
 use App\Mail\EmailVerificationLink;
+use Webpatser\Uuid\Uuid;
+use App\User;
 use Mail;
 
 class UserMutator
@@ -26,33 +27,29 @@ class UserMutator
 
     public function create($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        // Check if User exists
-        if (!empty($args['id'])) {
-            $user = User::findOrFail($args['id']);
-
-            unset($args['id']);
-            unset($args['email']);
-            unset($args['password']);
-
-            $user->update($args);
-    
-            return $user;
-        }
-
         // Create user with ORM
-        unset($args['id']);
         unset($args['directive']);
+        $args['email_verification_token'] = Uuid::generate()->string;
 
         $user = User::firstOrCreate($args);
 
         // Send email to user's email address
         try {
             Mail::to($user->email)->send(new EmailVerificationLink($user));
-        } catch (\Throwable $th) {
-            \Log::error($th);
+        } catch (\Exception $e) {
+            \Log::error($e);
         }
 
         // Return user object
         return $user;
+    }
+
+    public function verify($rootValue, array $args)
+    {
+        return User::where('email_verification_token', $args['token'])->update('email_verified_at', date());
+    }
+
+    public function update($rootValue, array $args) {
+        return User::find($args['id'])->update($args);
     }
 }
