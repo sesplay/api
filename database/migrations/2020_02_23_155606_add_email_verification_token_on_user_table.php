@@ -14,7 +14,7 @@ class AddEmailVerificationTokenOnUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email_verification_token', 32)->after('id_number');
+            $table->string('email_verification_token', 36)->after('id_number');
         });
     }
 
