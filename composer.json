@@ -18,7 +18,8 @@
         "laravel/tinker": "^2.0",
         "mll-lab/graphql-php-scalars": "^2.1",
         "nesbot/carbon": "^2.29",
-        "nuwave/lighthouse": "^4.7"
+        "nuwave/lighthouse": "^4.7",
+        "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
