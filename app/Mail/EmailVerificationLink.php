@@ -30,7 +30,7 @@ class EmailVerificationLink extends Mailable
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->link = config('web_mail_verification_url') . '/' . $user->email_verification_token;
+        $this->link = config('app.web_mail_verification_url') . '/' . $user->email_verification_token;
     }
 
     /**
