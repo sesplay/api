@@ -106,13 +106,13 @@ input CreateMusicSkillInput {
 
 type User {
     id: ID!
-    firstName: String! @rename(attribute: "first_name")
-    lastName: String! @rename(attribute: "last_name")
-    username: String!
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    username: String
     email: String!
     password: String!
-    phoneNumber: String! @rename(attribute: "phone_number")
-    birthDate: Date! @rename(attribute: "birth_date")
+    phoneNumber: String @rename(attribute: "phone_number")
+    birthDate: Date @rename(attribute: "birth_date")
     address: String
     kecamatan: String
     kabupatenKota: String @rename(attribute: "kabupaten_kota")
@@ -123,9 +123,9 @@ type User {
     bankAccountNumber: String @rename(attribute: "bank_account_number")
     idType: String @rename(attribute: "id_type")
     idNumber: String @rename(attribute: "id_number")
-    musicGenres: [MusicGenre!]! @belongsToMany(relation: "musicGenres")
-    musicInstruments: [MusicInstrument!]! @belongsToMany(relation: "musicInstruments")
-    musicSkills: [MusicSkill!]! @belongsToMany(relation: "musicSkills")
+    musicGenres: [MusicGenre]! @belongsToMany(relation: "musicGenres")
+    musicInstruments: [MusicInstrument]! @belongsToMany(relation: "musicInstruments")
+    musicSkills: [MusicSkill]! @belongsToMany(relation: "musicSkills")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
 }
