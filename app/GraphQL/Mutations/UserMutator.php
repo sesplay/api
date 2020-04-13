@@ -46,10 +46,11 @@ class UserMutator
 
     public function verify($rootValue, array $args)
     {
-        return User::where('email_verification_token', $args['token'])->update('email_verified_at', date());
+        return User::where('email_verification_token', $args['token'])->update(['email_verified_at' => date(), 'is_verified' => true]);
     }
 
-    public function update($rootValue, array $args) {
+    public function update($rootValue, array $args)
+    {
         return User::find($args['id'])->update($args);
     }
 }
