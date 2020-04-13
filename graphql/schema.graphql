@@ -126,8 +126,10 @@ type User {
     musicGenres: [MusicGenre]! @belongsToMany(relation: "musicGenres")
     musicInstruments: [MusicInstrument]! @belongsToMany(relation: "musicInstruments")
     musicSkills: [MusicSkill]! @belongsToMany(relation: "musicSkills")
+    links: [Link]! @hasMany(relation: "links")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
+    isVerified: Boolean! @rename(attribute: "is_verified")
 }
 
 type Country {
@@ -197,6 +199,14 @@ type MusicInstrument {
 type MusicSkill {
     id: ID!
     name: String!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+type Link {
+    id: ID!
+    name: String!
+    link: String!
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
 }
