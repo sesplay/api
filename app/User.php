@@ -37,6 +37,7 @@ class User extends Authenticatable
         'id_type',
         'id_number',
         'email_verification_token',
+        'is_verified',
     ];
  
     /**
