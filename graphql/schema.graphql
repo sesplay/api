@@ -129,7 +129,7 @@ type User {
     links: [Link]! @hasMany(relation: "links")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
-    isVerified: Boolean! @rename(attribute: "is_verified")
+    isVerified: Boolean @rename(attribute: "is_verified")
 }
 
 type Country {

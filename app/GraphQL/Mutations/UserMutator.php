@@ -44,7 +44,7 @@ class UserMutator
         return $user;
     }
 
-    public function verify($rootValue, array $args)
+    public function verify($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return User::where('email_verification_token', $args['token'])->update(['email_verified_at' => date("Y-m-d H:i:s"), 'is_verified' => true]);
     }
