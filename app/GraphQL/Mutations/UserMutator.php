@@ -46,7 +46,7 @@ class UserMutator
 
     public function verify($rootValue, array $args)
     {
-        return User::where('email_verification_token', $args['token'])->update(['email_verified_at' => date(), 'is_verified' => true]);
+        return User::where('email_verification_token', $args['token'])->update(['email_verified_at' => date("Y-m-d H:i:s"), 'is_verified' => true]);
     }
 
     public function update($rootValue, array $args)
