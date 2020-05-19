@@ -58,8 +58,14 @@ class UserMutator
     {
         \Log::debug("MASUK");
         \Log::debug(print_r($args, true));
-        $profilePhoto = $args['profilePhoto']->storePublicly('uploads');
-        $coverPhoto = $args['profilePhoto']->storePublicly('uploads');
+        $profilePhoto = $args['profilePhoto']->store(
+            'profile_photo', 'public'
+        );
+
+        $coverPhoto = $args['coverPhoto']->store(
+            'cover_photo', 'public'
+        );
+
         \Log::debug(print_r($profilePhoto, true));
         return User::find($args['id'])->update($args);
     }
