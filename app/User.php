@@ -38,6 +38,8 @@ class User extends Authenticatable
         'id_number',
         'email_verification_token',
         'is_verified',
+        'profile_photo',
+        'cover_photo',
     ];
  
     /**
