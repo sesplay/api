@@ -56,17 +56,18 @@ class UserMutator
 
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        \Log::debug("MASUK");
-        \Log::debug(print_r($args, true));
-        $profilePhoto = $args['profilePhoto']->store(
-            'profile_photo', 'public'
-        );
+        if (isset($args['profilePhoto'])) {
+            $args['profile_photo'] = 'storage/' . $args['profilePhoto']->store(
+                'profile_photo', 'public'
+            );
+        }
 
-        $coverPhoto = $args['coverPhoto']->store(
-            'cover_photo', 'public'
-        );
+        if (isset($args['coverPhoto'])) {
+            $args['cover_photo'] = 'storage/' . $args['coverPhoto']->store(
+                'cover_photo', 'public'
+            );
+        }
 
-        \Log::debug(print_r($profilePhoto, true));
         return User::find($args['id'])->update($args);
     }
 }
