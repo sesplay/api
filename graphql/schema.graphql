@@ -8,8 +8,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
 type Query {
-    users: [User!] @all
-    user(id: Int! @eq): User @find
+    users: [User!] @middleware(checks: ["auth:api"]) @all 
+    user(id: Int! @eq): User @middleware(checks: ["auth:api"]) @find 
 
     countries: [Country!] @all
     country(id: Int! @eq): Country @find
@@ -40,9 +40,15 @@ type Query {
 }
 
 type Mutation {
+    loginUser(inputLogin: inputLogin! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
     createUser(inputCreateUser: inputUser! @spread): User! @field(resolver: "UserMutator@create")
-    updateUser(inputUpdateUser: inputUser! @spread): User! @field(resolver: "UserMutator@update")
+    updateUser(inputUpdateUser: inputUser! @spread): User! @middleware(checks: ["auth:api"]) @field(resolver: "UserMutator@update")
     verifyUser(token: String!): User! @field(resolver: "UserMutator@verify")
+}
+
+input inputLogin {
+    email: String!
+    password: String!
 }
 
 input inputUser {
@@ -108,6 +114,14 @@ input CreateMusicInstrumentInput {
 
 input CreateMusicSkillInput {
     name: String!
+}
+
+type AuthPayload {
+    access_token: String!
+    refresh_token: String!
+    expires_in: Int!
+    token_type: String!
+    user: User!
 }
 
 type User {
