@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\Auth;
 use App\Mail\EmailVerificationLink;
 use Webpatser\Uuid\Uuid;
 use App\User;
@@ -30,7 +31,7 @@ class UserMutator
         // Create user with ORM
         unset($args['directive']);
         $args['email_verification_token'] = Uuid::generate()->string;
-
+        
         $user = User::firstOrCreate($args);
 
         // Send email to user's email address
@@ -50,6 +51,21 @@ class UserMutator
         $user->email_verified_at = date("Y-m-d H:i:s");
         $user->is_verified = true;
         $user->save();
+
+        return $user;
+    }
+
+    public function login($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if (
+            ! Auth::attempt(['email' => $args['email'], 'password' => $args['password']]) &&
+            ! Auth::attempt(['email' => $args['email'], 'password' => $args['password']])
+        ) {
+            return response()->json(['error'=>'Unauthorized'], 401);
+        }
+            
+        $user = Auth::user();
+        $user['token'] = $user->createToken('token')->accessToken;
 
         return $user;
     }

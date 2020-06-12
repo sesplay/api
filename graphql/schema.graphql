@@ -40,7 +40,7 @@ type Query {
 }
 
 type Mutation {
-    loginUser(inputLogin: inputLogin! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+    loginUser(inputLogin: inputLogin! @spread): User! @field(resolver: "UserMutator@login")
     createUser(inputCreateUser: inputUser! @spread): User! @field(resolver: "UserMutator@create")
     updateUser(inputUpdateUser: inputUser! @spread): User! @middleware(checks: ["auth:api"]) @field(resolver: "UserMutator@update")
     verifyUser(token: String!): User! @field(resolver: "UserMutator@verify")
@@ -151,6 +151,7 @@ type User {
     isVerified: Boolean @rename(attribute: "is_verified")
     profilePhoto: String
     coverPhoto: String
+    token: String
 }
 
 type Country {
