@@ -9,7 +9,7 @@ scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload
 
 type Query {
     users: [User!] @middleware(checks: ["auth:api"]) @all 
-    user: User @middleware(checks: ["auth:api"]) @@field(resolver: "UserMutator@me")
+    user: User @middleware(checks: ["auth:api"]) @field(resolver: "UserMutator@me")
 
     countries: [Country!] @all
     country(id: Int! @eq): Country @find
