@@ -65,7 +65,7 @@ class UserMutator
         }
             
         $user = Auth::user();
-        if (!$user->is_verified) return response()->json(['error' => 'Unverified'], 401);
+        if (!$user->is_verified) return $user;
 
         $user['token'] = $user->createToken('token')->accessToken;
 
