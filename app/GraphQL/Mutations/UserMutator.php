@@ -75,6 +75,13 @@ class UserMutator
         return $user;
     }
 
+    public function me($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if (Auth::check()) {
+            return Auth::user();
+        }
+    }
+
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (isset($args['profilePhoto'])) {
