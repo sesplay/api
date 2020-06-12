@@ -78,10 +78,11 @@ class UserController extends Controller
                 ! Auth::attempt(['email' => request('email'), 'password' => request('password')]) &&
                 ! Auth::attempt(['username' => request('username'), 'password' => request('password')])
             ) {
-                return response()->json(['error'=>'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
 
             $user = Auth::user(); 
+            if (!$user->is_verified) return response()->json(['error' => 'Unverified'], 401);
             $token = $user->createToken('token')->accessToken;
 
             return response()->json([
