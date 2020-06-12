@@ -126,7 +126,7 @@ type AuthPayload {
 }
 
 type User {
-    id: ID!
+    id: ID
     firstName: String @rename(attribute: "first_name")
     lastName: String @rename(attribute: "last_name")
     username: String
@@ -143,12 +143,12 @@ type User {
     bankAccountNumber: String @rename(attribute: "bank_account_number")
     idType: String @rename(attribute: "id_type")
     idNumber: String @rename(attribute: "id_number")
-    musicGenres: [MusicGenre]! @belongsToMany(relation: "musicGenres")
-    musicInstruments: [MusicInstrument]! @belongsToMany(relation: "musicInstruments")
-    musicSkills: [MusicSkill]! @belongsToMany(relation: "musicSkills")
-    links: [Link]! @hasMany(relation: "links")
-    createdAt: DateTime! @rename(attribute: "created_at")
-    updatedAt: DateTime! @rename(attribute: "updated_at")
+    musicGenres: [MusicGenre] @belongsToMany(relation: "musicGenres")
+    musicInstruments: [MusicInstrument] @belongsToMany(relation: "musicInstruments")
+    musicSkills: [MusicSkill] @belongsToMany(relation: "musicSkills")
+    links: [Link] @hasMany(relation: "links")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
     isVerified: Boolean @rename(attribute: "is_verified")
     profilePhoto: String
     coverPhoto: String
