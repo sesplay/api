@@ -44,7 +44,7 @@ type Mutation {
     createUser(inputCreateUser: inputUser! @spread): User! @field(resolver: "UserMutator@create")
     updateUser(inputUpdateUser: inputUser! @spread): User! @middleware(checks: ["auth:api"]) @field(resolver: "UserMutator@update")
     verifyUser(token: String!): User! @field(resolver: "UserMutator@verify")
-    logoutUser() @field(resolver: "UserMutator@logout")
+    # logoutUser() @field(resolver: "UserMutator@logout")
 }
 
 input inputLogin {
