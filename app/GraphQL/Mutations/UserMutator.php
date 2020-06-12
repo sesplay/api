@@ -65,6 +65,8 @@ class UserMutator
         }
             
         $user = Auth::user();
+        if (!$user->is_verified) return response()->json(['error' => 'Unverified'], 401);
+
         $user['token'] = $user->createToken('token')->accessToken;
 
         return $user;
@@ -85,5 +87,12 @@ class UserMutator
         }
 
         return User::find($args['id'])->update($args);
+    }
+
+    public function logout($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if (Auth::check()) {
+            Auth::user()->AuthAccessToken()->delete();
+        }
     }
 }
