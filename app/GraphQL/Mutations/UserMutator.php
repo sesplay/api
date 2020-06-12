@@ -65,7 +65,10 @@ class UserMutator
         }
             
         $user = Auth::user();
-        if (!$user->is_verified) return $user;
+        if (!$user->is_verified) {
+            $user['token'] = null;
+            return $user;
+        }
 
         $user['token'] = $user->createToken('token')->accessToken;
 
