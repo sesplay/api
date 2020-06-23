@@ -31,8 +31,34 @@ class UserMutator
         // Create user with ORM
         unset($args['directive']);
         $args['email_verification_token'] = Uuid::generate()->string;
-        
+        \Log::error($args);
+
+        if (isset($args['musicGenres'])) {
+            $musicGenres = $args['musicGenres'];
+            unset($args['musicGenres']);
+        }
+
+        if (isset($args['musicInstruments'])) {
+            $musicInstruments = $args['musicInstruments'];
+            unset($args['musicInstruments']);
+        }
+
+        if (isset($args['musicSkills'])) {
+            $musicSkills = $args['musicSkills'];
+            unset($args['musicSkills']);
+        }
+
+        if (isset($args['links'])) {
+            $links = $args['links'];
+            unset($args['links']);
+        }
+
         $user = User::firstOrCreate($args);
+
+        isset($musicGenres) && $user->musicGenres()->sync($musicGenres);
+        isset($musicInstruments) && $user->musicInstruments()->sync($musicInstruments);
+        isset($musicSkills) && $user->musicSkills()->sync($musicSkills);
+        isset($links) && $user->links()->createMany($links);
 
         // Send email to user's email address
         try {

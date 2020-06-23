@@ -71,58 +71,17 @@ input inputUser {
     bankAccountNumber: String @rename(attribute: "bank_account_number")
     idType: String @rename(attribute: "id_type")
     idNumber: String @rename(attribute: "id_number")
-    musicGenres: CreateMusicGenreBelongsToMany
-    musicInstruments: CreateMusicInstrumentBelongsToMany
-    musicSkills: CreateMusicSkillBelongsToMany
-    links: CreateLinkRelation
+    musicGenres: [String]
+    musicInstruments: [String]
+    musicSkills: [String]
+    links: [inputLink]
     profilePhoto: Upload
     coverPhoto: Upload
 }
 
-input CreateLinkRelation {
-    create: [CreateLinkInput!]
-}
-
-input CreateMusicGenreBelongsToMany {
-    create: [CreateMusicGenreInput!]
-    connect: [ID!]
-    sync: [ID!]
-}
-
-input CreateMusicInstrumentBelongsToMany {
-    create: [CreateMusicInstrumentInput!]
-    connect: [ID!]
-    sync: [ID!]
-}
-
-input CreateMusicSkillBelongsToMany {
-    create: [CreateMusicSkillInput!]
-    sync: ID!
-}
-
-input CreateLinkInput {
+input inputLink {
     name: String!
     link: String!
-}
-
-input CreateMusicGenreInput {
-    name: String!
-}
-
-input CreateMusicInstrumentInput {
-    name: String!
-}
-
-input CreateMusicSkillInput {
-    name: String!
-}
-
-type AuthPayload {
-    access_token: String!
-    refresh_token: String!
-    expires_in: Int!
-    token_type: String!
-    user: User!
 }
 
 type User {
@@ -143,10 +102,10 @@ type User {
     bankAccountNumber: String @rename(attribute: "bank_account_number")
     idType: String @rename(attribute: "id_type")
     idNumber: String @rename(attribute: "id_number")
-    musicGenres: [MusicGenre] @belongsToMany(relation: "musicGenres")
-    musicInstruments: [MusicInstrument] @belongsToMany(relation: "musicInstruments")
-    musicSkills: [MusicSkill] @belongsToMany(relation: "musicSkills")
-    links: [Link] @hasMany(relation: "links")
+    musicGenres: [MusicGenre]
+    musicInstruments: [MusicInstrument]
+    musicSkills: [MusicSkill]
+    links: [Link]
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     isVerified: Boolean @rename(attribute: "is_verified")
