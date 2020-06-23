@@ -31,7 +31,6 @@ class UserMutator
         // Create user with ORM
         unset($args['directive']);
         $args['email_verification_token'] = Uuid::generate()->string;
-        \Log::error($args);
 
         if (isset($args['musicGenres'])) {
             $musicGenres = $args['musicGenres'];
