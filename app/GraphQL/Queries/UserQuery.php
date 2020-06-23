@@ -26,7 +26,7 @@ class UserQuery
     public function me($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (Auth::check()) {
-            $user = User::find(Auth::user()->id);
+            $user = Auth::user();
             $user->musicGenres;
             $user->musicInstruments;
             $user->musicSkills;
