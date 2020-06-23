@@ -109,8 +109,8 @@ type User {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     isVerified: Boolean @rename(attribute: "is_verified")
-    profilePhoto: String
-    coverPhoto: String
+    profilePhoto: String @rename(attribute: "profile_photo")
+    coverPhoto: String @rename(attribute: "cover_photo")
     token: String
 }
 
