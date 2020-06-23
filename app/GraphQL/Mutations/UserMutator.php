@@ -52,7 +52,7 @@ class UserMutator
             unset($args['links']);
         }
 
-        $user = User::firstOrCreate($args);
+        $user = User::create($args);
 
         isset($musicGenres) && $user->musicGenres()->sync($musicGenres);
         isset($musicInstruments) && $user->musicInstruments()->sync($musicInstruments);
@@ -102,6 +102,12 @@ class UserMutator
 
     public function update($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        if (!Auth::check()) {
+            return new User();
+        }
+
+        $user = Auth::user();
+
         if (isset($args['profilePhoto'])) {
             $args['profile_photo'] = 'storage/' . $args['profilePhoto']->store(
                 'profile_photo', 'public'
@@ -114,7 +120,33 @@ class UserMutator
             );
         }
 
-        return User::find($args['id'])->update($args);
+        if (isset($args['musicGenres'])) {
+            $musicGenres = $args['musicGenres'];
+            unset($args['musicGenres']);
+        }
+
+        if (isset($args['musicInstruments'])) {
+            $musicInstruments = $args['musicInstruments'];
+            unset($args['musicInstruments']);
+        }
+
+        if (isset($args['musicSkills'])) {
+            $musicSkills = $args['musicSkills'];
+            unset($args['musicSkills']);
+        }
+
+        if (isset($args['links'])) {
+            $links = $args['links'];
+            unset($args['links']);
+        }
+
+        $user->update($args);
+        isset($musicGenres) && $user->musicGenres()->sync($musicGenres);
+        isset($musicInstruments) && $user->musicInstruments()->sync($musicInstruments);
+        isset($musicSkills) && $user->musicSkills()->sync($musicSkills);
+        isset($links) && $user->links()->createMany($links);
+
+        return $user;
     }
 
     public function logout($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
